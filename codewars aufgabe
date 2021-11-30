@@ -1,0 +1,7 @@
+class Connect4():
+
+    def __init__(self):
+        # Code Here
+
+    def play(self, col):
+        # Code Here
