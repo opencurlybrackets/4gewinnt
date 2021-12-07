@@ -18,32 +18,21 @@ play = True
 
 
 # various checks for winner
-def digonal_win_left_top(player):
+
+def diagonal_win_left_top(player):
     count = 0
-    for column in range(6):
-        n = 3
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXX")
-        for row in range(6):
-            print("------")
-            if column + n < 0:
-                print("reset count")
-                count = 0
-            try:
-                print(f"{column + n}column+n {row}row")
-                print(matrix[row][column + n])
-                if matrix[row][column + n] == player:
-                    count += 1
-                    print(f"++ {count} count")
+    for column in range(7):
+        for row in range(6):             # begin to look after a player token on position "50"
+            if matrix[row][column] == player:
+                for token in range(4):             # begin to check, if the token begins a connect4
+                    if row > 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up
+                        return True
+                    if matrix[row + token][column + token] == player:   # check if their are other player tokens on the up right diagonal
+                        count += 1
                     if count == 4:
-                        print("4 in a ROW")
                         return False
                 else:
-                    print("-")
                     count = 0
-            except IndexError:
-                print(IndexError)
-            n -= 1
-        print("diagonal")
     return True
 
 
@@ -53,7 +42,7 @@ def diagonal_win_left_bottom(player):
         for row in range(5, 0 - 1, -1):             # begin to look after a player token on position "50"
             if matrix[row][column] == player:
                 for token in range(4):             # begin to check, if the token begins a connect4
-                    if row < 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up 
+                    if row < 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up
                         return True
                     if matrix[row - token][column + token] == player:   # check if their are other player tokens on the up right diagonal
                         count += 1
@@ -62,8 +51,8 @@ def diagonal_win_left_bottom(player):
                 else:
                     count = 0
     return True
-                    
-                
+
+
 def column_win(player):
     count = 0
     for column in range(7):
@@ -102,7 +91,7 @@ def row_win(player):
 
 # game loop
 # to be added:
-# - If a player attempts to place a disc in a column that is full then you should return ”Column full!” 
+# - If a player attempts to place a disc in a column that is full then you should return ”Column full!”
 #   and the next move must be taken by the same player.
 # - If the game has been won by a player, any following moves should return ”Game has finished!”.
 winner = ""
@@ -141,10 +130,10 @@ while play:
     elif not diagonal_win_left_bottom("P2"):
         play = False
         winner = "Player 2!"
-    elif not digonal_win_left_top("P1"):
+    elif not diagonal_win_left_top("P1"):
         play = False
         winner = "Player 1!"
-    elif not digonal_win_left_top("P2"):
+    elif not diagonal_win_left_top("P2"):
         play = False
         winner = "Player 2!"
     print(play)
