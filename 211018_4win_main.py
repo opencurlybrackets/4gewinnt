@@ -21,12 +21,10 @@ play = True
 
 def diagonal_win_left_top(player):
     count = 0
-    for column in range(7):
-        for row in range(6):             # begin to look after a player token on position "50"
+    for column in range(0, 4):
+        for row in range(0, 3):             # begin to look after a player token on position "50"
             if matrix[row][column] == player:
                 for token in range(4):             # begin to check, if the token begins a connect4
-                    if row > 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up
-                        return True
                     if matrix[row + token][column + token] == player:   # check if their are other player tokens on the up right diagonal
                         count += 1
                     if count == 4:
@@ -38,12 +36,10 @@ def diagonal_win_left_top(player):
 
 def diagonal_win_left_bottom(player):
     count = 0
-    for column in range(7):
-        for row in range(5, 0 - 1, -1):             # begin to look after a player token on position "50"
+    for column in range(0, 4):
+        for row in range(3, 6):             # begin to look after a player token on position "50"
             if matrix[row][column] == player:
                 for token in range(4):             # begin to check, if the token begins a connect4
-                    if row < 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up
-                        return True
                     if matrix[row - token][column + token] == player:   # check if their are other player tokens on the up right diagonal
                         count += 1
                     if count == 4:
