@@ -49,28 +49,21 @@ def digonal_win_left_top(player):
 
 def diagonal_win_left_bottom(player):
     count = 0
-    for column in range(6):
-        n = -2
-        for row in range(6):
-            if column + n == 0:
-                count = 0
-            try:
-                if matrix[row][column + n] == player:
-                    print("+")
-                    count += 1
+    for column in range(7):
+        for row in range(5, 0 - 1, -1):             # begin to look after a player token on position "50"
+            if matrix[row][column] == player:
+                for token in range(4):             # begin to check, if the token begins a connect4
+                    if row < 3 or column > 3:       # on position "33": last chance to begin a connect4 from left bottom to right up 
+                        return True
+                    if matrix[row - token][column + token] == player:   # check if their are other player tokens on the up right diagonal
+                        count += 1
                     if count == 4:
-                        print("4 in a ROW")
                         return False
                 else:
-                    print("-")
                     count = 0
-            except IndexError:
-                print(IndexError)
-            n += 1
-        print("diagonal")
     return True
-
-
+                    
+                
 def column_win(player):
     count = 0
     for column in range(7):
@@ -93,9 +86,9 @@ def row_win(player):
     print("start")
     for row in range(6):
         count = 0
-        for index in range(7):
-            print(row, index)
-            if matrix[row][index] == player:
+        for column in range(7):
+            print(row, column)
+            if matrix[row][column] == player:
                 print("+")
                 count += 1
                 if count == 4:
@@ -117,17 +110,18 @@ turn = 1
 y = 5
 while play:
     if turn % 2 != 0:
-        inputP1 = int(input("_"))
+        inputP1 = int(input("Player 1 "))
         while matrix[y][inputP1] == "P2" or matrix[y][inputP1] == "P1":
             y -= 1
         matrix[y][inputP1] = "P1"
     elif turn % 2 == 0:
-        inputP2 = int(input("_"))
+        inputP2 = int(input("Player 2 "))
         while matrix[y][inputP2] == "P2" or matrix[y][inputP2] == "P1":
             y -= 1
         matrix[y][inputP2] = "P2"
     y = 5
     turn += 1
+    print(matrix)
     if not row_win("P1"):
         winner = "Player 1!"
         play = False
